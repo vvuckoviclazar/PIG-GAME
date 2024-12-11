@@ -1,0 +1,120 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  font-size: 6.25%;
+}
+
+body {
+  background-color: rgb(196, 102, 118);
+  font-family: sans-serif;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 100rem auto;
+  background-color: white;
+  width: 1000rem;
+  border-radius: 10rem;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgb(248, 211, 218);
+  border-radius: 10rem 0rem 0rem 10rem;
+  padding-top: 80rem;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgb(214, 151, 162);
+  border-radius: 0rem 10rem 10rem 0rem;
+  padding-top: 80rem;
+  position: relative;
+}
+
+.textPlayer {
+  font-size: 40rem;
+  font-weight: 500;
+  color: rgb(63, 63, 63);
+  margin-bottom: 30rem;
+}
+
+.playerScore1 {
+  font-size: 80rem;
+  color: rgb(197, 42, 68);
+  margin-bottom: 170rem;
+}
+
+.playerScore2 {
+  font-size: 80rem;
+  color: rgb(197, 42, 68);
+  margin-bottom: 170rem;
+}
+
+.currentSpan {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 25rem;
+  background-color: rgb(227, 73, 99);
+  color: white;
+  margin-bottom: 80rem;
+  border-radius: 10rem;
+  padding: 17rem 55rem 17rem 55rem;
+  font-weight: 300;
+}
+
+.currentScore {
+  font-size: 37rem;
+  padding-top: 10rem;
+  font-weight: 500;
+}
+
+button {
+  border: none;
+  background-color: white;
+  padding: 10rem 20rem 10rem 20rem;
+  font-size: 20rem;
+  border-radius: 20rem;
+}
+
+.newGame {
+  position: absolute;
+  top: 10%;
+  left: -19%;
+}
+
+.rollDice {
+  position: absolute;
+  left: -13%;
+  top: 68%;
+}
+
+.hold {
+  position: absolute;
+  left: -12%;
+  top: 80%;
+}
+
+.rollNumber {
+  font-size: 90rem;
+  position: absolute;
+  left: -11%;
+  top: 37%;
+  color: white;
+  background-color: rgb(183, 46, 69);
+  border-radius: 10rem;
+  padding: 10rem 30rem 10rem 30rem;
+}
