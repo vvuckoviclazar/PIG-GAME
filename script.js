@@ -77,15 +77,34 @@ function pigGameCreator() {
     if (player1Score >= 20) {
       playerScore1.textContent = "Winner!";
       left.style.backgroundColor = "black";
+      right.style.backgroundColor = "rgb(214, 151, 162)";
     } else if (player2Score >= 20) {
       playerScore2.textContent = "Winner!";
       right.style.backgroundColor = "black";
+      left.style.backgroundColor = "rgb(214, 151, 162)";
     }
+  };
+
+  const resetGame = () => {
+    player1Score = 0;
+    player2Score = 0;
+    player1CurrentScore = 0;
+    player2CurrentScore = 0;
+    randomNumber = Math.ceil(Math.random() * 6);
+    activePlayer = "player1";
+
+    left.style.backgroundColor = "rgb(248, 211, 218)";
+    right.style.backgroundColor = "rgb(214, 151, 162)";
+    playerScore1.textContent = 0;
+    playerScore2.textContent = 0;
+    rollNumber.textContent = "-";
+    updateScores();
   };
 
   return {
     rollDice: rollHandler,
     holdScore: holdHandler,
+    resetGame,
   };
 }
 
@@ -93,3 +112,4 @@ const pigGame = pigGameCreator();
 
 rollDice.addEventListener("click", pigGame.rollDice);
 hold.addEventListener("click", pigGame.holdScore);
+newGame.addEventListener("click", pigGame.resetGame);
