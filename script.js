@@ -11,105 +11,97 @@ const rollNumber = document.querySelector(".rollNumber");
 const left = document.querySelector(".left");
 const right = document.querySelector(".right");
 
-function pigGameCreator() {
-  let player1Score = 0;
-  let player2Score = 0;
-  let player1CurrentScore = 0;
-  let player2CurrentScore = 0;
-  let randomNumber = Math.ceil(Math.random() * 6);
-  let activePlayer = "player1";
+let player1Score = 0;
+let player2Score = 0;
+let player1CurrentScore = 0;
+let player2CurrentScore = 0;
+let randomNumber = Math.ceil(Math.random() * 6);
+let activePlayer = "player1";
 
-  const updateScores = () => {
-    playerScore1.textContent = player1Score;
-    currentScore1.textContent = player1CurrentScore;
-    playerScore2.textContent = player2Score;
-    currentScore2.textContent = player2CurrentScore;
-    rollNumber.textContent = randomNumber;
-  };
+rollNumber.textContent = randomNumber;
 
-  const switchPlayer = () => {
-    activePlayer = activePlayer === "player1" ? "player2" : "player1";
-  };
-
-  const updateUI = (activeSide, inactiveSide, scoreElement, newScore) => {
-    scoreElement.textContent = newScore;
-    activeSide.style.backgroundColor = "rgb(248, 211, 218)";
-    inactiveSide.style.backgroundColor = "rgb(214, 151, 162)";
-  };
-
-  const rollHandler = () => {
-    randomNumber = Math.ceil(Math.random() * 6);
-    rollNumber.textContent = randomNumber;
-
-    if (randomNumber === 1) {
-      switchPlayer();
-    } else {
-      if (activePlayer === "player1") {
-        player1CurrentScore += randomNumber;
-        player2CurrentScore = 0;
-        updateUI(left, right, currentScore1, player1CurrentScore);
-      } else {
-        player2CurrentScore += randomNumber;
-        player1CurrentScore = 0;
-        updateUI(right, left, currentScore2, player2CurrentScore);
-      }
-    }
-    updateScores();
-  };
-
-  const holdHandler = () => {
-    if (activePlayer === "player1") {
-      player1Score += player1CurrentScore;
-      player1CurrentScore = 0;
-      updateUI(right, left, playerScore1, player1Score);
-      switchPlayer();
-    } else {
-      player2Score += player2CurrentScore;
-      player2CurrentScore = 0;
-      updateUI(left, right, playerScore2, player2Score);
-      switchPlayer();
-    }
-    checkWinner();
-    updateScores();
-  };
-
-  const checkWinner = () => {
-    if (player1Score >= 20) {
-      playerScore1.textContent = "Winner!";
-      left.style.backgroundColor = "black";
-      right.style.backgroundColor = "rgb(214, 151, 162)";
-    } else if (player2Score >= 20) {
-      playerScore2.textContent = "Winner!";
-      right.style.backgroundColor = "black";
-      left.style.backgroundColor = "rgb(214, 151, 162)";
-    }
-  };
-
-  const resetGame = () => {
-    player1Score = 0;
-    player2Score = 0;
-    player1CurrentScore = 0;
-    player2CurrentScore = 0;
-    randomNumber = Math.ceil(Math.random() * 6);
-    activePlayer = "player1";
-
-    left.style.backgroundColor = "rgb(248, 211, 218)";
-    right.style.backgroundColor = "rgb(214, 151, 162)";
-    playerScore1.textContent = 0;
-    playerScore2.textContent = 0;
-    rollNumber.textContent = "-";
-    updateScores();
-  };
-
-  return {
-    rollDice: rollHandler,
-    holdScore: holdHandler,
-    resetGame,
-  };
+function gameCreator() {
+  let number = 0;
 }
 
-const pigGame = pigGameCreator();
+function winner() {
+  if (player1Score >= 20) {
+    playerScore1.textContent = "Winner!";
+    left.style.backgroundColor = "black";
+    return;
+  } else if (player2Score >= 20) {
+    playerScore2.textContent = "Winner!";
+    right.style.backgroundColor = "black";
+    return;
+  }
+}
 
-rollDice.addEventListener("click", pigGame.rollDice);
-hold.addEventListener("click", pigGame.holdScore);
-newGame.addEventListener("click", pigGame.resetGame);
+rollDice.addEventListener("click", (e) => {
+  randomNumber = Math.ceil(Math.random() * 6);
+  rollNumber.textContent = randomNumber;
+  if (randomNumber === 1) {
+    activePlayer = activePlayer === "player1" ? "player2" : "player1";
+  }
+
+  function upDateUi(side1, side2, element, number) {
+    element.textContent = number;
+
+    side1.style.backgroundColor = "rgb(248, 211, 218)";
+    side2.style.backgroundColor = "rgb(214, 151, 162)";
+  }
+
+  if (activePlayer === "player1") {
+    upDateUi(left, right, currentScore1, randomNumber);
+    player1CurrentScore = player1CurrentScore + randomNumber;
+    currentScore1.textContent = player1CurrentScore;
+    player2CurrentScore = 0;
+    currentScore2.textContent = player2CurrentScore;
+  }
+
+  if (activePlayer === "player2") {
+    upDateUi(right, left, currentScore2, randomNumber);
+    player2CurrentScore = player2CurrentScore + randomNumber;
+    currentScore2.textContent = player2CurrentScore;
+    player1CurrentScore = 0;
+    currentScore1.textContent = player1CurrentScore;
+  }
+});
+
+hold.addEventListener("click", (e) => {
+  if (activePlayer === "player1") {
+    player1Score = player1Score + player1CurrentScore;
+    playerScore1.textContent = player1Score;
+    player1CurrentScore = 0;
+    currentScore1.textContent = player1CurrentScore;
+    activePlayer = "player2";
+    right.style.backgroundColor = "rgb(248, 211, 218)";
+    left.style.backgroundColor = "rgb(214, 151, 162)";
+  } else if (activePlayer === "player2") {
+    player2Score = player2Score + player2CurrentScore;
+    playerScore2.textContent = player2Score;
+    player2CurrentScore = 0;
+    currentScore2.textContent = player2CurrentScore;
+    activePlayer = "player1";
+    left.style.backgroundColor = "rgb(248, 211, 218)";
+    right.style.backgroundColor = "rgb(214, 151, 162)";
+  }
+  winner();
+});
+
+newGame.addEventListener("click", (e) => {
+  randomNumber = Math.ceil(Math.random() * 6);
+  player1Score = 0;
+  player2Score = 0;
+  player1CurrentScore = 0;
+  player2CurrentScore = 0;
+  activePlayer = "player1";
+
+  playerScore1.textContent = player1Score;
+  currentScore1.textContent = player1CurrentScore;
+  playerScore2.textContent = player2Score;
+  currentScore2.textContent = player2CurrentScore;
+  rollNumber.textContent = randomNumber;
+
+  left.style.backgroundColor = "rgb(248, 211, 218)";
+  right.style.backgroundColor = "rgb(214, 151, 162)";
+});
