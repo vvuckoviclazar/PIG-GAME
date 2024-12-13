@@ -11,25 +11,57 @@ const rollNumber = document.querySelector(".rollNumber");
 const left = document.querySelector(".left");
 const right = document.querySelector(".right");
 
-let player1Score = 0;
-let player2Score = 0;
-let player1CurrentScore = 0;
-let player2CurrentScore = 0;
 let randomNumber = Math.ceil(Math.random() * 6);
 let activePlayer = "player1";
-
 rollNumber.textContent = randomNumber;
 
 function gameCreator() {
-  let number = 0;
+  let score = 0;
+  let currentScore = 0;
+
+  const currentScoreCounter = () => {
+    currentScore += randomNumber;
+  };
+
+  const getCurrentScore = () => {
+    return currentScore;
+  };
+
+  const scoreCounter = () => {
+    score += currentScore;
+  };
+
+  const getScore = () => {
+    return score;
+  };
+
+  const resetCurrentScore = () => {
+    return (currentScore = 0);
+  };
+
+  const resetScore = () => {
+    return (score = 0);
+  };
+
+  return {
+    scoreCounter,
+    currentScoreCounter,
+    getCurrentScore,
+    getScore,
+    resetCurrentScore,
+    resetScore,
+  };
 }
 
+const player1 = gameCreator();
+const player2 = gameCreator();
+
 function winner() {
-  if (player1Score >= 20) {
+  if (player1.getScore() >= 20) {
     playerScore1.textContent = "Winner!";
     left.style.backgroundColor = "black";
     return;
-  } else if (player2Score >= 20) {
+  } else if (player2.getScore() >= 20) {
     playerScore2.textContent = "Winner!";
     right.style.backgroundColor = "black";
     return;
@@ -52,35 +84,33 @@ rollDice.addEventListener("click", (e) => {
 
   if (activePlayer === "player1") {
     upDateUi(left, right, currentScore1, randomNumber);
-    player1CurrentScore = player1CurrentScore + randomNumber;
-    currentScore1.textContent = player1CurrentScore;
-    player2CurrentScore = 0;
-    currentScore2.textContent = player2CurrentScore;
+    player1.currentScoreCounter();
+    currentScore1.textContent = player1.getCurrentScore();
+    player2.resetCurrentScore();
+    currentScore2.textContent = player2.resetCurrentScore();
   }
 
   if (activePlayer === "player2") {
     upDateUi(right, left, currentScore2, randomNumber);
-    player2CurrentScore = player2CurrentScore + randomNumber;
-    currentScore2.textContent = player2CurrentScore;
-    player1CurrentScore = 0;
-    currentScore1.textContent = player1CurrentScore;
+    player2.currentScoreCounter();
+    currentScore2.textContent = player2.getCurrentScore();
+    player1.resetCurrentScore();
+    currentScore1.textContent = player1.resetCurrentScore();
   }
 });
 
 hold.addEventListener("click", (e) => {
   if (activePlayer === "player1") {
-    player1Score = player1Score + player1CurrentScore;
-    playerScore1.textContent = player1Score;
-    player1CurrentScore = 0;
-    currentScore1.textContent = player1CurrentScore;
+    player1.scoreCounter();
+    playerScore1.textContent = player1.getScore();
+    currentScore1.textContent = player1.resetCurrentScore();
     activePlayer = "player2";
     right.style.backgroundColor = "rgb(248, 211, 218)";
     left.style.backgroundColor = "rgb(214, 151, 162)";
   } else if (activePlayer === "player2") {
-    player2Score = player2Score + player2CurrentScore;
-    playerScore2.textContent = player2Score;
-    player2CurrentScore = 0;
-    currentScore2.textContent = player2CurrentScore;
+    player2.scoreCounter();
+    playerScore2.textContent = player2.getScore();
+    currentScore2.textContent = player2.resetCurrentScore();
     activePlayer = "player1";
     left.style.backgroundColor = "rgb(248, 211, 218)";
     right.style.backgroundColor = "rgb(214, 151, 162)";
@@ -90,16 +120,16 @@ hold.addEventListener("click", (e) => {
 
 newGame.addEventListener("click", (e) => {
   randomNumber = Math.ceil(Math.random() * 6);
-  player1Score = 0;
-  player2Score = 0;
-  player1CurrentScore = 0;
-  player2CurrentScore = 0;
+  player1.resetScore();
+  player2.resetScore();
+  player1.resetCurrentScore();
+  player2.resetCurrentScore();
   activePlayer = "player1";
 
-  playerScore1.textContent = player1Score;
-  currentScore1.textContent = player1CurrentScore;
-  playerScore2.textContent = player2Score;
-  currentScore2.textContent = player2CurrentScore;
+  playerScore1.textContent = player1.resetScore();
+  currentScore1.textContent = player1.resetCurrentScore();
+  playerScore2.textContent = player2.resetScore();
+  currentScore2.textContent = player2.resetCurrentScore();
   rollNumber.textContent = randomNumber;
 
   left.style.backgroundColor = "rgb(248, 211, 218)";
